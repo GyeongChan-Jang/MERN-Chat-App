@@ -112,6 +112,7 @@ const Signup = () => {
         },
         config
       );
+
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       history.push("/chats");
