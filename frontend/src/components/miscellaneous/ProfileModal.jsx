@@ -43,7 +43,7 @@ const ProfileModal = ({ user, children }) => {
           <ModalBody
             display="flex"
             flexDir="column"
-            alignContent="center"
+            alignItems="center"
             justifyContent="space-between"
           >
             <Image
