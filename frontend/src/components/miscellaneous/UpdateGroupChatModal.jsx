@@ -14,11 +14,13 @@ import {
   Box,
   FormControl,
   Input,
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { ChatState } from "../../context/ChatProvider";
 import UserBadgeItem from "../UserAvatar/UserBadgeItem";
 import axios from "axios";
+import UserListItem from "../UserAvatar/UserListItem";
 
 const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -31,7 +33,113 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
 
   const toast = useToast();
 
-  const handleRemove = async () => {};
+  const handleAddUser = async (addUser) => {
+    // user가 이미 있는 경우
+    if (selectedChat.users.find((u) => u._id === addUser._id)) {
+      toast({
+        title: "User already in the group",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+
+    // 그룹 관리자가 아닌 경우
+    if (selectedChat.groupAdmin._id !== user._id) {
+      toast({
+        title: "Only admins can add users",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const { data } = axios.put(
+        "/api/chat/groupadd",
+        {
+          chatId: selectedChat._id,
+          userId: addUser._id,
+        },
+        config
+      );
+
+      setSelectedChat(data);
+      setFetchAgain(!fetchAgain);
+      setLoading(false);
+    } catch (error) {
+      toast({
+        title: "Error to add user",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setLoading(false);
+    }
+  };
+
+  const handleRemove = async (removeUser) => {
+    // 그룹 관리자가 아닌 경우, 본인이 아닌 다른 사람을 삭제하려는 경우
+    if (
+      selectedChat.groupAdmin._id !== user._id &&
+      removeUser._id !== user._id
+    ) {
+      toast({
+        title: "Only admins can remove users",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+
+    try {
+      setLoading(true);
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const { data } = axios.put(
+        "/api/chat/groupremove",
+        {
+          chatId: selectedChat._id,
+          userId: removeUser._id,
+        },
+        config
+      );
+
+      // 로그인 유저가 삭제된 경우(본인이 방을 나간 경우) 처리
+      removeUser._id === user._id ? setSelectedChat() : setSelectedChat(data);
+
+      setFetchAgain(!fetchAgain);
+      setLoading(false);
+    } catch (error) {
+      toast({
+        title: "Error to remove user",
+        status: error.response.data.message,
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
 
   const handleRename = async () => {
     if (!groupChatName) return;
@@ -69,7 +177,33 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
     setGroupChatName("");
   };
 
-  const handleSearch = async (query) => {};
+  // 유저 검색
+  const handleSearch = async (query) => {
+    setSearch(query);
+    if (!query) return;
+
+    try {
+      setLoading(true);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      setSearchResult(data);
+      setLoading(false);
+    } catch (error) {
+      toast({
+        title: "Error to fetch users",
+        description: error.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
 
   return (
     <>
@@ -121,6 +255,17 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
                 onChange={(e) => handleSearch(e.currentTarget.value)}
               />
             </FormControl>
+            {loading ? (
+              <Spinner size="lg" />
+            ) : (
+              searchResult?.map((user) => (
+                <UserListItem
+                  key={user._id}
+                  user={user}
+                  handleFunction={() => handleAddUser(user)}
+                />
+              ))
+            )}
           </ModalBody>
 
           <ModalFooter>

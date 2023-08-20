@@ -8,7 +8,6 @@ import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const { user, selectedChat, setSelectedChat } = ChatState();
-  console.log(selectedChat);
 
   return (
     <>

@@ -12,6 +12,7 @@ import {
   FormControl,
   Input,
   Box,
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { ChatState } from "../../context/ChatProvider";
@@ -81,12 +82,12 @@ const GroupChatModal = ({ children }) => {
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((u) => u._id)),
-          groupAdmin: user._id,
+          // groupAdmin: user._id,
         },
         config
       );
 
-      setChats([...chats, data]);
+      setChats([data, ...chats]);
       onClose();
       toast({
         title: "New Group Chat Created",
@@ -152,7 +153,7 @@ const GroupChatModal = ({ children }) => {
             </FormControl>
             <FormControl>
               <Input
-                placeholder="Add Users eg: John, Piyush, ..."
+                placeholder="Add Users eg: John, ..."
                 mb={1}
                 value={search}
                 onChange={(e) => handleSearch(e.currentTarget.value)}
@@ -163,13 +164,13 @@ const GroupChatModal = ({ children }) => {
               {selectedUsers.map((u) => (
                 <UserBadgeItem
                   key={u._id}
-                  user={u.name}
+                  user={u}
                   handleFunction={() => handleDelete(u)}
                 />
               ))}
             </Box>
             {loading ? (
-              <div>loading</div>
+              <Spinner size="lg" />
             ) : (
               searchResult
                 ?.slice(0, 4)
