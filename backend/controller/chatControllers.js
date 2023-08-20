@@ -87,7 +87,7 @@ const createGroupChat = asyncHandler(async (req, res) => {
   }
 
   // 로그인한 유저도 그룹에 추가
-  users.push(req.user_id);
+  users.push(req.user._id);
 
   try {
     const groupChat = await Chat.create({
