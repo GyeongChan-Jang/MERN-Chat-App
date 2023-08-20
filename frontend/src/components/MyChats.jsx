@@ -14,7 +14,7 @@ import ChatLoading from "../components/ChatLoading";
 import { getSender } from "../config/ChatLogics";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
 
-const MyChats = ({ chatAgain }) => {
+const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
 
@@ -45,7 +45,7 @@ const MyChats = ({ chatAgain }) => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  }, [chatAgain]);
+  }, [fetchAgain]);
 
   return (
     <Box

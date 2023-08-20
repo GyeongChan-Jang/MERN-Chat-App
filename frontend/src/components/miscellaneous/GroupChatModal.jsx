@@ -47,7 +47,6 @@ const GroupChatModal = ({ children }) => {
       const { data } = await axios.get(`/api/user?search=${search}`, config);
       setSearchResult(data);
       setLoading(false);
-      console.log(data);
     } catch (error) {
       toast({
         title: "Error to fetch users",
