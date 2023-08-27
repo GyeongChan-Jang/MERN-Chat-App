@@ -16,6 +16,7 @@ const protect = asyncHandler(async (req, res, next) => {
 
       // passwrd를 제외하고 요청한 user의 정보를 가져옴
       req.user = await User.findById(decoded.id).select("-password");
+
       next();
 
       // req.user = await

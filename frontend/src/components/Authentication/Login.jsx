@@ -11,14 +11,17 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { ChatState } from "../../context/ChatProvider";
 
 const Login = () => {
   const [show, setShow] = useState(false);
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const history = useHistory();
+
+  const { setUser } = ChatState();
 
   const handleClick = () => setShow(!show);
 
@@ -57,7 +60,7 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
-
+      setUser(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       history.push("/chats");
@@ -77,7 +80,6 @@ const Login = () => {
     <VStack spacing="5px">
       <FormControl id="email">
         <FormLabel>Email</FormLabel>
-
         <Input
           value={email}
           placeContent="Enter Your Name"

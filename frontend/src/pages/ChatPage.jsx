@@ -6,9 +6,7 @@ import ChatBox from "../components/ChatBox";
 import { Box } from "@chakra-ui/react";
 
 const ChatPage = () => {
-  const [loggedUser, setLoggedUser] = useState();
-  const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
-
+  const { user } = ChatState();
   const [fetchAgain, setFetchAgain] = useState(false);
 
   return (

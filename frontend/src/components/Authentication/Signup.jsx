@@ -54,7 +54,6 @@ const Signup = () => {
           setPic(data.url.toString(setLoading(false)));
         })
         .catch((err) => {
-          console.log(err);
           setLoading(false);
         });
     } else {
@@ -112,8 +111,6 @@ const Signup = () => {
         },
         config
       );
-
-      console.log(data);
 
       toast({
         title: "Registration Successful",

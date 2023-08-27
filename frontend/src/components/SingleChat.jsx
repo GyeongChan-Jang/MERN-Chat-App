@@ -79,7 +79,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
           config
         );
-        console.log(data);
+
         setMessages([...messages, data]);
       } catch (error) {
         toast({

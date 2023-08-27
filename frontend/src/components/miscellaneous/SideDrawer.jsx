@@ -39,13 +39,14 @@ const SideDrawer = () => {
 
   const toast = useToast();
 
-  const { user, chats, setChats } = ChatState();
+  const { user, chats, setChats, setUser } = ChatState();
   const history = useHistory();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
+    setUser(null);
     history.push("/");
   };
 
@@ -88,7 +89,6 @@ const SideDrawer = () => {
   };
 
   const accessChat = async (userId) => {
-    console.log(userId);
     try {
       setLoadingChat(true);
 
@@ -201,7 +201,7 @@ const SideDrawer = () => {
                 />
               ))
             )}
-            {loadingChat && <Spinner ml="auto" display="flex" />}
+            {loadingChat && <Spinner mx="auto" display="flex" />}
           </DrawerBody>
         </DrawerContent>
       </Drawer>

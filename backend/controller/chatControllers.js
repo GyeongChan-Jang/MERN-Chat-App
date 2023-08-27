@@ -7,7 +7,6 @@ const accessChat = asyncHandler(async (req, res) => {
   const { userId } = req.body;
 
   if (!userId) {
-    console.log("No userId param");
     return res.sendStatus(400);
   }
 
@@ -15,7 +14,7 @@ const accessChat = asyncHandler(async (req, res) => {
   let isChat = await Chat.find({
     isGroupChat: false,
     $and: [
-      { users: { $elemMatch: { $eq: req.user_id } } },
+      { users: { $elemMatch: { $eq: req.user._id } } },
       { users: { $elemMatch: { $eq: req.userId } } },
     ],
   })
@@ -33,7 +32,7 @@ const accessChat = asyncHandler(async (req, res) => {
     let chatData = {
       chatName: "sender",
       isGroupChat: false,
-      users: [req.user_id, userId], // [로그인한 유저, 방 만드려는 유저]
+      users: [req.user._id, userId], // [로그인한 유저, 방 만드려는 유저]
     };
 
     try {
