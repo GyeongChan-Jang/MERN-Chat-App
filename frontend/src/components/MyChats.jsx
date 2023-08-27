@@ -29,11 +29,12 @@ const MyChats = ({ fetchAgain }) => {
       };
 
       const { data } = await axios.get("/api/chat", config);
+
       setChats(data);
     } catch (error) {
       toast({
         title: "Error",
-        description: error.message,
+        description: error.message + "토큰인증 실패",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -41,6 +42,8 @@ const MyChats = ({ fetchAgain }) => {
       });
     }
   };
+
+  console.log(chats);
 
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));

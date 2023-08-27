@@ -113,12 +113,22 @@ const Signup = () => {
         config
       );
 
+      console.log(data);
+
+      toast({
+        title: "Registration Successful",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       history.push("/chats");
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Error!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
@@ -154,7 +164,7 @@ const Signup = () => {
             placeContent="Enter Your Name"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <InputRightElement>
+          <InputRightElement width="4.5rem">
             <Button onClick={handleClick} h="1.75rem" size="sm">
               {show ? "Hide" : "Show"}
             </Button>
@@ -169,7 +179,7 @@ const Signup = () => {
             placeContent="Enter Your Name"
             onChange={(e) => setConfirmpassword(e.target.value)}
           />
-          <InputRightElement>
+          <InputRightElement width="4.5rem">
             <Button onClick={handleClick} h="1.75rem" size="sm">
               {show ? "Hide" : "Show"}
             </Button>

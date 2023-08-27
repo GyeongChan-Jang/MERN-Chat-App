@@ -72,7 +72,6 @@ const SideDrawer = () => {
       };
 
       const { data } = await axios.get(`/api/user?search=${search}`, config);
-      console.log(data);
 
       setLoading(false);
       setSearchResult(data);
@@ -89,6 +88,7 @@ const SideDrawer = () => {
   };
 
   const accessChat = async (userId) => {
+    console.log(userId);
     try {
       setLoadingChat(true);
 
@@ -197,7 +197,7 @@ const SideDrawer = () => {
                 <UserListItem
                   key={user._id}
                   user={user}
-                  handleFunction={() => accessChat(user)}
+                  handleFunction={() => accessChat(user._id)}
                 />
               ))
             )}

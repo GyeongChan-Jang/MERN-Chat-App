@@ -61,7 +61,6 @@ const Login = () => {
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       history.push("/chats");
-      console.log(data);
     } catch (error) {
       toast({
         title: "Invalid Credentials",
@@ -85,8 +84,8 @@ const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormControl>
-      <FormControl id="passowrd" isRequired>
-        <FormLabel>Passoword</FormLabel>
+      <FormControl id="password" isRequired>
+        <FormLabel>Password</FormLabel>
         <InputGroup>
           <Input
             value={password}
@@ -94,7 +93,7 @@ const Login = () => {
             placeContent="Enter Your Name"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <InputRightElement>
+          <InputRightElement width="4.5rem">
             <Button onClick={handleClick} h="1.75rem" size="sm">
               {show ? "Hide" : "Show"}
             </Button>
