@@ -1,7 +1,12 @@
 import { Avatar, Tooltip } from "@chakra-ui/react";
 import React from "react";
 import ScrollableFeed from "react-scrollable-feed";
-import { isLastMessage, isSameSender } from "../config/ChatLogics";
+import {
+  isLastMessage,
+  isSameSender,
+  isSameSenderMargin,
+  isSameUser,
+} from "../config/ChatLogics";
 import { ChatState } from "../context/ChatProvider";
 
 const ScrollableChat = ({ messages }) => {
@@ -37,6 +42,8 @@ const ScrollableChat = ({ messages }) => {
                 borderRadius: "20px",
                 padding: "5px 15px",
                 maxWidth: "75%",
+                marginLeft: isSameSenderMargin(messages, m, i, user._id),
+                marginTop: isSameUser(messages, m, i, user._id) ? 3 : 10,
               }}
             >
               {m.content}
