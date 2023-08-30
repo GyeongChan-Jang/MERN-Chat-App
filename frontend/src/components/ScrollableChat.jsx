@@ -30,14 +30,14 @@ const ScrollableChat = ({ messages }) => {
                   size="sm"
                   cursor="pointer"
                   name={m.sender.name}
-                  src={m.sender.pic}
+                  src={m.sender.picture}
                 />
               </Tooltip>
             )}
             <span
               style={{
                 backgroundColor: `${
-                  m.sender_id === user._id ? "#bee3f8" : "#b9f5d0"
+                  m.sender._id === user._id ? "#bee3f8" : "#b9f5d0"
                 }`,
                 borderRadius: "20px",
                 padding: "5px 15px",
